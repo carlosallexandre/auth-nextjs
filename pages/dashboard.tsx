@@ -1,7 +1,8 @@
 import { useEffect } from "react"
 import { useAuth } from "../contexts/AuthContext"
-import { api } from "../services/api"
+import api, { Api } from "../services/api"
 import styles from '../styles/Home.module.scss'
+import { withSSRAuth } from "../utils/withSRRAuth"
 
 export default function Dashboard() {
   const { user } = useAuth()
@@ -19,3 +20,14 @@ export default function Dashboard() {
     </div>
   )
 }
+
+export const getServerSideProps = withSSRAuth(async (ctx) => {
+  const api = new Api(ctx).axios
+  const response = await api.get('me')
+  
+  console.log(response.data)
+
+  return { 
+    props: {} 
+  }
+})
