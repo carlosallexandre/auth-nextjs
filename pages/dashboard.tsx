@@ -6,7 +6,7 @@ import styles from '../styles/Home.module.scss'
 import { withSSRAuth } from "../utils/withSRRAuth"
 
 export default function Dashboard() {
-  const { user } = useAuth()
+  const { user, signOut } = useAuth()
 
   useEffect(() => {
     api.get('me')
@@ -18,6 +18,8 @@ export default function Dashboard() {
     <div className={styles.container}>
       <h1>Dashboard</h1>
       <strong>{user?.email}</strong>
+
+      <button type="button" onClick={signOut}>SignOut</button>
 
       <Can roles={['editor']}>
         <h2>Métricas</h2>
